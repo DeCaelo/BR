@@ -10,9 +10,73 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20161208080916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "comments", force: :cascade do |t|
+    t.text     "message"
+    t.boolean  "status"
+    t.integer  "post_id"
+    t.integer  "visitor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_comments_on_post_id", using: :btree
+    t.index ["visitor_id"], name: "index_comments_on_visitor_id", using: :btree
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "visitor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["visitor_id"], name: "index_messages_on_visitor_id", using: :btree
+  end
+
+  create_table "moderators", force: :cascade do |t|
+    t.string   "fullname"
+    t.string   "username"
+    t.string   "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.boolean  "publish"
+    t.integer  "moderator_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["moderator_id"], name: "index_posts_on_moderator_id", using: :btree
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string   "site_name"
+    t.integer  "post_per_page"
+    t.boolean  "under_maintenance"
+    t.boolean  "prevent_commenting"
+    t.boolean  "tag_visibility"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "visitors", force: :cascade do |t|
+    t.string   "fullname"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "visitors"
+  add_foreign_key "messages", "visitors"
+  add_foreign_key "posts", "moderators"
 end
