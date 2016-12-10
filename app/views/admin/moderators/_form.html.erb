@@ -1,6 +1,6 @@
 <%= simple_form_for [:admin, @moderator] do |f| %>
   <%= f.input :fullname, placeholder: "fullname", label: "your fullname" %>
-  <%= f.input :username, placeholder: "username", label: "your username" %>
+  <%= f.input :username, placeholder: "username", label: "your email" %>
   <%= f.input :password, placeholder: "password", label: "your password" %>
   <%= f.button :submit, "Update Moderator", class: "btn btn-primary" %>
 <% end %>
