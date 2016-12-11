@@ -1,0 +1,5 @@
+<%= simple_form_for :admin_sessions, { url: admin_sessions_path } do |f| %>
+  <%= f.input :username %>
+  <%= f.input :password %>
+  <%= f.button :submit, "Log In" %>
+<% end %>
